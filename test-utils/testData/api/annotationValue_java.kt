@@ -31,6 +31,10 @@
 // 31
 // [warning1, warning 2]
 // END
+
+// FILE: MyAnnotation.java
+public @interface MyAnnotation {}
+
 // FILE: a.kt
 
 enum class RGB {
