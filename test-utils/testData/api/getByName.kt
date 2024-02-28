@@ -20,6 +20,13 @@
 // all success
 // END
 // MODULE: lib1
+// FILE: JavaLibAnnotation.java
+public @interface JavaLibAnnotation {
+    String value();
+}
+// FILE: KotlinLibAnnotation.kt
+annotation class KotlinLibAnnotation(val value: String)
+
 // FILE: foo.kt
 package lib1
 
@@ -46,6 +53,7 @@ class Bar {
         return 1;
     }
 }
+
 
 // MODULE: lib2
 // FILE: foo.kt
@@ -75,3 +83,9 @@ class KotlinMain : Foo {
     fun lib1MemberFun(a: Int) = 1
 }
 
+// FILE: JavaAnnotation.java
+public @interface JavaAnnotation {
+    String value();
+}
+// FILE: KotlinAnnotation.kt
+annotation class KotlinAnnotation(val value: String)

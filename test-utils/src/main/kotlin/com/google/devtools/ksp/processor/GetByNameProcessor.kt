@@ -1,6 +1,8 @@
 package com.google.devtools.ksp.processor
 
 import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getDeclaredFunctions
+import com.google.devtools.ksp.getDeclaredProperties
 import com.google.devtools.ksp.getFunctionDeclarationsByName
 import com.google.devtools.ksp.getPropertyDeclarationByName
 import com.google.devtools.ksp.processing.Resolver
@@ -14,6 +16,15 @@ class GetByNameProcessor : AbstractTestProcessor() {
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        listOf("KotlinAnnotation", "KotlinLibAnnotation", "JavaAnnotation", "JavaLibAnnotation").forEach { cls ->
+            resolver.getClassDeclarationByName(cls)!!.let {clsDec ->
+                listOf(clsDec.getDeclaredProperties(), clsDec.getDeclaredFunctions()).forEach {
+                    val list = it.joinToString(prefix = "[", postfix = "]") { "${it} - ${it.modifiers}" }
+                    println("$cls: $list")
+                }
+            }
+        }
+
         val classNames = listOf(
             "lib1.Foo",
             "lib1.Foo.FooNested",
