@@ -14,6 +14,8 @@ class GetByNameProcessor : AbstractTestProcessor() {
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        val enumCls = resolver.getClassDeclarationByName("main.A")!!
+        println(enumCls.superTypes.joinToString())
         val classNames = listOf(
             "lib1.Foo",
             "lib1.Foo.FooNested",

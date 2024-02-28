@@ -75,3 +75,7 @@ class KotlinMain : Foo {
     fun lib1MemberFun(a: Int) = 1
 }
 
+enum class A {
+    X, Y
+}
+
