@@ -28,3 +28,7 @@ interface Bar<T>
 interface BarIn<in T>
 interface BarOut<out T>
 
+class A {
+    fun f1(): BarIn<BarOut<String>>
+    fun f2(): BarIn<in BarOut<out String>>
+}

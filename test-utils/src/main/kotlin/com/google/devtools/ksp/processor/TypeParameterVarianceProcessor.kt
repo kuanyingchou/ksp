@@ -1,6 +1,7 @@
 package com.google.devtools.ksp.processor
 
 import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSDeclaration
@@ -12,6 +13,10 @@ class TypeParameterVarianceProcessor : AbstractTestProcessor() {
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        val cls = resolver.getClassDeclarationByName("A")!!
+        val t = cls.getDeclaredFunctions().map { it.returnType!!.resolve() }.toList()
+        println("${t[0]} == ${t[1]} = ${t[0] == t[1]}")
+
         fun KSDeclaration.printTypeParams(): String {
             val params = typeParameters.joinToString {
                 "${it.variance} ${it.name.asString()}"
