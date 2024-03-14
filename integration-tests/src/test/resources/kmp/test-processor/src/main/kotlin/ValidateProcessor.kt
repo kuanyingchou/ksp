@@ -13,6 +13,11 @@ class ValidateProcessor(val codeGenerator: CodeGenerator, val logger: KSPLogger)
 
         val toValidate = resolver.getSymbolsWithAnnotation("com.example.MyAnnotation")
         toValidate.forEach {
+            it.annotations.forEach {
+                logger.error(">>> ${it.shortName.asString()}, ${it.arguments.joinToString { "${it.name?.asString() ?: "NULL"} = ${it.value}" }}")
+            }
+        }
+        toValidate.forEach {
             if (!it.validate()) {
                 logger.error("$it.validate(): not ok")
             }
