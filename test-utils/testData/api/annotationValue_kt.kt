@@ -29,7 +29,9 @@
 // Error type synthetic declaration
 // [<ERROR TYPE>, Foo]
 // @Foo
+// 17
 // @Suppress
+// [name1, name2]
 // G
 // ONE
 // 31

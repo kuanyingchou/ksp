@@ -25,7 +25,9 @@
 // Error type synthetic declaration
 // Array
 // @Foo
+// 17
 // @Suppress
+// [name1, name2]
 // G
 // ONE
 // 31
