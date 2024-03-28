@@ -17,7 +17,9 @@
 
 package com.google.devtools.ksp.processor
 
+import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.getDeclaredProperties
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
@@ -25,7 +27,19 @@ import com.google.devtools.ksp.symbol.*
 open class ReplaceWithErrorTypeArgsProcessor : AbstractTestProcessor() {
     val results = mutableListOf<String>()
 
+    @OptIn(KspExperimental::class)
     override fun process(resolver: Resolver): List<KSAnnotated> {
+
+        val cls = resolver.getClassDeclarationByName("Test")!!
+        val f = cls.getDeclaredFunctions().single { it.simpleName.asString() == "f" }
+        f.parameters.single().let { p ->
+            println(p.type)
+            println(p.type.resolve())
+            println(p.type.resolve().arguments)
+            println(p.type.resolve().nullability)
+            println(p.type.resolve().replace(p.type.resolve().arguments))
+        }
+
         val decls = listOf(
             // Those have 2 type parameters
             resolver.getClassDeclarationByName("KS")!!,

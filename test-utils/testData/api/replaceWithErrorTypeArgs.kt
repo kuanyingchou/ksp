@@ -119,6 +119,7 @@ enum class KLE {
 
 // MODULE: main(lib)
 // FILE: JS.java
+import java.util.*;
 class JS<T1, T2> {}
 class JS1<T> {
     T p;
@@ -126,6 +127,11 @@ class JS1<T> {
 enum JSE {
     E
 }
+
+class Test {
+    void f(List<?> a) {}
+}
+
 
 // FILE: KS.kt
 fun <A> f(a: A) = TODO()
