@@ -20,6 +20,7 @@ package com.google.devtools.ksp.processor
 import com.google.devtools.ksp.getClassDeclarationByName
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueArgument
 import com.google.devtools.ksp.symbol.KSVisitorVoid
@@ -29,6 +30,19 @@ class AnnotationArgumentProcessor : AbstractTestProcessor() {
     val visitor = ArgumentVisitor()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        resolver.getClassDeclarationByName("Cls")!!.let { cls ->
+            cls.annotations.single().arguments.forEach {
+                println("arg: ${it.name!!.asString()}")
+                it.value.let {
+                    if (it is KSAnnotation) {
+                        it.arguments.forEach { println(it.value) }
+                    } else {
+                        println("$it")
+                    }
+                }
+            }
+        }
+
         resolver.getSymbolsWithAnnotation("Bar", true).forEach {
             it.annotations.forEach { it.arguments.forEach { it.accept(visitor, Unit) } }
         }

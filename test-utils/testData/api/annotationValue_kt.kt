@@ -35,8 +35,15 @@
 // 31
 // Throws
 // END
+// MODULE: module1
 // FILE: a.kt
+annotation class B(val i: Int)
+annotation class A(val b: B)
+@A(b = B(i = 42))
+class Cls
 
+// MODULE: main(module1)
+// FILE: main.kt
 enum class RGB {
     R, G, B
 }
