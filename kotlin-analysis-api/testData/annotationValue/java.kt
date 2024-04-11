@@ -31,6 +31,19 @@
 // 31
 // [warning1, warning 2]
 // END
+// FILE: Test.java
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
+@interface A {
+    int i();
+}
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
+@interface B {
+    A a();
+}
+interface Parent {}
+class Sub implements @B(a = @A(i = 42)) Parent {}
 // FILE: a.kt
 
 enum class RGB {
