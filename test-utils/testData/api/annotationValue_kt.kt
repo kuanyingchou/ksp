@@ -33,10 +33,28 @@
 // G
 // ONE
 // 31
+// 42
+// JavaEnum
+// 42
+// null
 // Throws
 // END
-// FILE: a.kt
+// MODULE: module1
+// FILE: JavaEnum.java
+enum JavaEnum { ONE, TWO, THREE }
+@interface BarJava {
+    int i();
+    JavaEnum argJavaEnum();
+}
+// FILE: TestLib.java
+@BarJava(
+    i = 42,
+    argJavaEnum = JavaEnum.ONE
+)
+class TestLib {}
 
+// MODULE: main(module1)
+// FILE: a.kt
 enum class RGB {
     R, G, B
 }
@@ -90,7 +108,9 @@ fun Fun() {
     )
     class Local
 }
-
-// FILE: JavaEnum.java
-
-enum JavaEnum { ONE, TWO, THREE }
+// FILE: Test.java
+@BarJava(
+    i = 42,
+    argJavaEnum = JavaEnum.ONE
+)
+class Test {}

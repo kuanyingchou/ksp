@@ -29,8 +29,16 @@ class AnnotationArgumentProcessor : AbstractTestProcessor() {
     val visitor = ArgumentVisitor()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        resolver.getSymbolsWithAnnotation("Bar", true).forEach {
-            it.annotations.forEach { it.arguments.forEach { it.accept(visitor, Unit) } }
+        listOf("Bar", "BarJava").forEach { annotation ->
+            resolver.getSymbolsWithAnnotation(annotation, true).forEach {
+                println(">>> $it")
+                it.annotations.forEach { it.arguments.forEach { it.accept(visitor, Unit) } }
+            }
+        }
+        resolver.getClassDeclarationByName("TestLib")!!.let { cls ->
+            cls.annotations.forEach {
+                it.arguments.forEach { it.accept(visitor, Unit) }
+            }
         }
 
         val C = resolver.getClassDeclarationByName("C")
@@ -53,8 +61,14 @@ class AnnotationArgumentProcessor : AbstractTestProcessor() {
     inner class ArgumentVisitor : KSVisitorVoid() {
         override fun visitValueArgument(valueArgument: KSValueArgument, data: Unit) {
             if (valueArgument.value is KSType) {
+                println("adding KSType: ${valueArgument.value} : ${valueArgument.value!!::class}")
                 results.add((valueArgument.value as KSType).declaration.toString())
             } else {
+                println("adding non-KSType: ${valueArgument.value} : ${
+                    valueArgument.value?.let {
+                        it::class
+                    } ?: "null"
+                }")
                 results.add(valueArgument.value.toString())
             }
         }
