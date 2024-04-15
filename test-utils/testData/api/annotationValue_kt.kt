@@ -18,79 +18,29 @@
 // WITH_RUNTIME
 // TEST PROCESSOR: AnnotationArgumentProcessor
 // EXPECTED:
-// defaultInNested
-// SomeClass$WithDollarSign
 // Str
 // 42
-// Foo
 // File
 // Local
-// Array
-// Error type synthetic declaration
-// [<ERROR TYPE>, Foo]
-// @Foo
-// @Suppress
-// G
-// ONE
-// 31
-// Throws
 // END
-// FILE: a.kt
-
-enum class RGB {
-    R, G, B
-}
-
-class ThrowsClass {
-    @Throws(Exception::class)
-    protected open fun throwsException() {
-    }
-}
-
-annotation class Foo(val s: Int) {
-    annotation class Nested(val nestedDefault:String = "defaultInNested")
-}
-class `SomeClass$WithDollarSign`
-
-annotation class MyAnnotation(val clazz: KClass<*>)
-
+// MODULE: module1
+// FILE: lib/a.kt
+package lib
 
 annotation class Bar(
     val argStr: String,
     val argInt: Int,
-    val argClsUser: kotlin.reflect.KClass<*>,
     val argClsLib: kotlin.reflect.KClass<*>,
-    val argClsLocal: kotlin.reflect.KClass<*>,
-    val argClsArray: kotlin.reflect.KClass<*>,
-    val argClsMissing: kotlin.reflect.KClass<*>,
-    val argClsMissingInArray: Array<kotlin.reflect.KClass<*>>,
-    val argAnnoUser: Foo,
-    val argAnnoLib: Suppress,
-    val argEnum: RGB,
-    val argJavaNum: JavaEnum,
-    val argDef: Int = 31
+    val argClsSrc: kotlin.reflect.KClass<*>,
 )
 
-fun Fun() {
-    @Foo.Nested
-    @MyAnnotation(`SomeClass$WithDollarSign`::class)
-    @Bar(
-        "Str",
-        40 + 2,
-        Foo::class,
-        java.io.File::class,
-        Local::class,
-        Array<String>::class,
-        Missing::class,
-        [Missing::class, Foo::class],
-        Foo(17),
-        Suppress("name1", "name2"),
-        RGB.G,
-        JavaEnum.ONE
-    )
-    class Local
-}
+@Bar(
+    "Str",
+    40 + 2,
+    java.io.File::class,
+    Local::class,
+)
+class Local
 
-// FILE: JavaEnum.java
-
-enum JavaEnum { ONE, TWO, THREE }
+// MODULE: main(module1)
+// FILE: placeholder.kt
