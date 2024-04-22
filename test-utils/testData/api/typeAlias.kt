@@ -42,6 +42,29 @@ typealias MyList_B<R> = MyList<R>
 typealias MyList_String = MyList<String>
 typealias MyList_B_String = MyList_B<String>
 
+abstract class X<
+    CK : Z<CK, C, CB>,
+    C : Y<CK, C, CB>,
+    CB : X<CK, C, CB>> : MutableMap<CK, C>
+sealed interface Y<
+    TK : Z<TK, T, TB>,
+    T : Y<TK, T, TB>,
+    TB : X<TK, T, TB>,
+    > {}
+interface Z<
+    TK : Z<TK, T, TB>,
+    T : Y<TK, T, TB>,
+    TB : X<TK, T, TB>,
+    > {}
+typealias AliasX = X<*, *, *>
+typealias AliasY = Y<*, *, *>
+typealias AliasZ = Z<*, *, *>
+class Test {
+    fun f(): AliasX
+    fun g(): AliasY
+    fun h(): AliasZ
+}
+
 val a: A = ""
 val b: B = ""
 val c: CC = ""

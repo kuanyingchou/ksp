@@ -17,6 +17,8 @@
 
 package com.google.devtools.ksp.processor
 
+import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 
@@ -25,6 +27,19 @@ open class TypeAliasProcessor : AbstractTestProcessor() {
     val types = mutableListOf<KSType>()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+
+        resolver.getClassDeclarationByName("Test")!!.let { cls ->
+            listOf("f", "g", "h").forEach { fName ->
+                cls.getDeclaredFunctions().single { it.simpleName.asString() == fName }.let { f ->
+                    println(f.returnType)
+                    println(f.returnType!!.resolve())
+                    println(f.returnType!!.resolve().declaration)
+                    println((f.returnType!!.resolve().declaration as KSTypeAlias).type)
+                    println((f.returnType!!.resolve().declaration as KSTypeAlias).type.resolve())
+                }
+            }
+        }
+
         val byFinalSignature = mutableMapOf<String, MutableList<KSType>>()
         resolver.getNewFiles().flatMap { file ->
             file.declarations.filterIsInstance<KSPropertyDeclaration>().map { prop ->
