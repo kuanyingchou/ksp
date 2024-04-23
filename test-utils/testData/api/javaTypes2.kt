@@ -29,6 +29,11 @@
 // Array<D> ?= Array<D> : true
 // END
 
+// MODULE: module1
+enum JavaEnum {
+    A, B, C
+}
+// MODULE: main(module1)
 // FILE: ArrayTest.java
 class ArrayTest {
     public static C[] javaArrayOfC() {

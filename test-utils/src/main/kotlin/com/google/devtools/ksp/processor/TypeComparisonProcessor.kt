@@ -17,6 +17,7 @@
 
 package com.google.devtools.ksp.processor
 
+import com.google.devtools.ksp.getClassDeclarationByName
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.visitor.KSTopDownVisitor
@@ -27,6 +28,9 @@ open class TypeComparisonProcessor : AbstractTestProcessor() {
     val types = mutableSetOf<KSType>()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+
+        resolver.getClassDeclarationByName("JavaEnum")!!
+
         val files = resolver.getNewFiles()
         val ignoredNames = mutableSetOf<String>()
 
