@@ -36,7 +36,12 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// FILE: foo.kt
+class Foo {
+    val barFoo: Bar<out Foo> = TODO()
+    val barNullableFoo: Bar<out Foo?> = TODO()
+}
+class Bar<T>
 // FILE: K.kt
 class KC
 interface KI
