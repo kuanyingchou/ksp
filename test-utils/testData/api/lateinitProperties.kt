@@ -30,6 +30,7 @@
 package test.compiled
 
 open class Foo {
+    var nonLateinit: Any = TODO()
     lateinit var prop1: Any
     companion object {
         lateinit var prop2: Any
@@ -45,6 +46,7 @@ object Bar : Foo() {
 package test.source
 
 open class FooSource {
+    var nonLateinitSource: Any = TODO()
     lateinit var propSource1: Any
     companion object {
         lateinit var propSource2: Any
