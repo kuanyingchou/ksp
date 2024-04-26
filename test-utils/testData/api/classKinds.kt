@@ -38,6 +38,10 @@
 // END
 
 // FILE: K.kt
+@JvmInline value class MyInlineClass(val value: Int)
+class MyTest {
+    fun f(): MyInlineClass
+}
 class KC
 interface KI
 annotation class KA

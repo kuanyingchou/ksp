@@ -17,7 +17,9 @@
 
 package com.google.devtools.ksp.processor
 
+import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.visitor.KSTopDownVisitor
@@ -25,7 +27,13 @@ import com.google.devtools.ksp.visitor.KSTopDownVisitor
 open class ClassKindsProcessor : AbstractTestProcessor() {
     val results = mutableListOf<String>()
 
+    @OptIn(KspExperimental::class)
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        resolver.getClassDeclarationByName("MyTest")!!.let { cls ->
+            cls.getDeclaredFunctions().single { it.simpleName.asString() == "f" }.let { f ->
+                println(resolver.mapToJvmSignature(f.returnType!!.resolve().declaration))
+            }
+        }
         fun KSClassDeclaration.pretty(): String = "${qualifiedName!!.asString()}: $classKind"
         val files = resolver.getNewFiles()
         files.forEach {
