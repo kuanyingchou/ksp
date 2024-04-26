@@ -37,6 +37,11 @@
 // ByType: com.google.devtools.ksp.processor.OuterAnnotation[innerAnnotation=com.google.devtools.ksp.processor.InnerAnnotation[value=hello from the other side]]
 // END
 // MODULE: annotations
+// FILE: MyTest.kt
+class MyTest {
+    fun <P> method10(): P where P: Collection<*>, P: Foo = TODO()
+}
+
 // FILE: com/google/devtools/ksp/processor/a.kt
 package com.google.devtools.ksp.processor
 

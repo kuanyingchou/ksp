@@ -19,6 +19,8 @@ package com.google.devtools.ksp.processor
 
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
+import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.isAnnotationPresent
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSAnnotated
@@ -37,6 +39,15 @@ class AnnotatedUtilProcessor : AbstractTestProcessor() {
     private val visitors = listOf(IsAnnotationPresentVisitor(), GetAnnotationsByTypeVisitor())
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+
+        resolver.getClassDeclarationByName("MyTest")!!.let { cls ->
+            cls.getDeclaredFunctions().forEach { f ->
+                if (f.typeParameters.isNotEmpty()) {
+                    println(f.typeParameters.single().bounds.toList())
+                }
+            }
+        }
+
         resolver.getSymbolsWithAnnotation("com.google.devtools.ksp.processor.Test", true).forEach {
             results.add("Test: $it")
             visitors.forEach { visitor -> it.accept(visitor, results) }
