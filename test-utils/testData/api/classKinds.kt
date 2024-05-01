@@ -37,6 +37,37 @@
 // kotlin.Double.Companion: OBJECT
 // END
 
+// MODULE: lib2
+// FILE: placeholder.kt
+// FILE: lib2/A.java
+package lib2;
+public class A<T> {}
+// FILE: lib2/B.java
+package lib2;
+public class B {}
+
+// MODULE: lib1(lib2)
+// FILE: placeholder.kt
+// FILE: lib1/Test.java
+package lib1;
+import lib2.*;
+import java.util.*;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import org.jetbrains.annotations.NotNull;
+class Test {
+    <T extends Object> void nullable() { }
+    <T extends @NotNull Object> void notNull() { }
+    <T extends B> void lib() { }
+    <T extends @NotNull B> void notNullLib() { }
+    <T extends A<String>> void genericLib() { }
+    <T extends @NotNull A<String>> void notNullGenericLib() { }
+    <T extends List<String>> void genericLibList() { }
+    <T extends @NotNull List<String>> void notNullGenericLibList() { }
+}
+
+
+// MODULE: main(lib1, lib2)
 // FILE: K.kt
 class KC
 interface KI
@@ -47,9 +78,27 @@ enum class KE {
 }
 
 // FILE: J.java
+import org.jetbrains.annotations.NotNull;
+import java.util.*;
 class JC {}
 interface JI {}
 @interface JA {}
 enum JE {
     ENTRY
+}
+
+class A<T> {}
+
+class B {}
+class Test {
+    <T extends Object> void nullable() { }
+    <T extends @NotNull Object> void notNull() { }
+    <T extends A<String>> void generic() { }
+    <T extends @NotNull A<String>> void notNullGeneric() { }
+    <T extends lib2.B> void lib() { }
+    <T extends @NotNull lib2.B> void notNullLib() { } // @NotNull is missing
+    <T extends lib2.A<String>> void genericLib() { }
+    <T extends @NotNull lib2.A<String>> void notNullGenericLib() { } // @NotNull is missing
+    <T extends List<String>> void genericLibList() { }
+    <T extends @NotNull List<String>> void notNullGenericLibList() { }
 }
