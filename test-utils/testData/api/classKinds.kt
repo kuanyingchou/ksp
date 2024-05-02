@@ -36,8 +36,19 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
+// MODULE: lib
+// FILE: lib.kt
+package lib
+class Test {
+    var prop: String = ""
+}
 
+// MODULE: main(lib)
 // FILE: K.kt
+class Test {
+    var prop: String = ""
+}
+
 class KC
 interface KI
 annotation class KA
