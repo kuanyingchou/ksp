@@ -36,7 +36,18 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// MODULE: lib
+// FILE: placeholder.kt
+// FILE: lib/Test.java
+package lib;
+class Test {
+    native void f(String p);
+}
+// MODULE: main(lib)
+// FILE: Test.java
+class Test {
+    native private void f(String p);
+}
 // FILE: K.kt
 class KC
 interface KI
