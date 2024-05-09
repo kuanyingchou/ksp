@@ -36,7 +36,37 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
+// MODULE: lib
+// FILE: lib/Test.kt
+package lib
+annotation class Default
+annotation class Property
+annotation class Field
+annotation class Param
+annotation class Setter
+annotation class Getter
+class Test(
+    @Default
+    @property:Property
+    @field:Field
+    @param:Param
+    @set:Setter
+    @get:Getter
+    var p: Int
+)
 
+// MODULE: main(lib)
+// FILE: Test.kt
+import lib.*
+class Test(
+    @Default
+    @property:Property
+    @field:Field
+    @param:Param
+    @set:Setter
+    @get:Getter
+    var p: Int
+)
 // FILE: K.kt
 class KC
 interface KI

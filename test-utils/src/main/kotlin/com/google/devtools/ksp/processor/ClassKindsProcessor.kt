@@ -18,6 +18,7 @@
 package com.google.devtools.ksp.processor
 
 import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getDeclaredProperties
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.visitor.KSTopDownVisitor
@@ -26,6 +27,22 @@ open class ClassKindsProcessor : AbstractTestProcessor() {
     val results = mutableListOf<String>()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        listOf("Test", "lib.Test").forEach { clsName ->
+            resolver.getClassDeclarationByName(clsName)!!.let { cls ->
+                cls.getDeclaredProperties().single().let { p ->
+                    println("${clsName}, setter: ${p.setter!!.annotations.toList().map { "${it.shortName.asString()}: ${it.useSiteTarget}" }}")
+                    println("${clsName}, getter: ${p.getter!!.annotations.toList().map { "${it.shortName.asString()}: ${it.useSiteTarget}" }}")
+                    println("${clsName}, property: ${p.annotations.toList().map { "${it.shortName.asString()}: ${it.useSiteTarget}" }}")
+                    if (p.hasBackingField) {
+                        // ???
+                    }
+                }
+                cls.primaryConstructor!!.parameters.single().let { p ->
+                    println("${clsName}, param: ${p.annotations.toList().map { "${it.shortName.asString()}: ${it.useSiteTarget}" }}")
+                }
+            }
+        }
+
         fun KSClassDeclaration.pretty(): String = "${qualifiedName!!.asString()}: $classKind"
         val files = resolver.getNewFiles()
         files.forEach {
