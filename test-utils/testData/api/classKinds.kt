@@ -36,6 +36,53 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
+// MODULE: lib
+// FILE: placeholder.kt
+// FILE: lib/A.java
+package lib;
+import java.lang.annotation.Repeatable;
+@Repeatable(A.C.class)
+@interface A {
+    int value();
+    @interface C {
+        A[] value();
+    }
+}
+// FILE: lib/KA.kt
+package lib
+@Repeatable
+annotation class KA(val value: Int)
+
+// FILE: lib/KTest.kt
+package lib
+@A(1)
+@A(2)
+@KA(1)
+@KA(2)
+class KTest
+// FILE: lib/Test.java
+package lib;
+@A(1)
+@A(2)
+@KA(1)
+@KA(2)
+class Test {}
+// MODULE: main(lib)
+// FILE: KTest.kt
+import lib.*
+@A(1)
+@A(2)
+@KA(1)
+@KA(2)
+class KTest
+// FILE: Test.java
+import lib.*;
+@A(1)
+@A(2)
+@KA(1)
+@KA(2)
+class Test {}
+
 
 // FILE: K.kt
 class KC
