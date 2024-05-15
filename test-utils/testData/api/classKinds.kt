@@ -36,6 +36,16 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
+// FILE: Annotations.kt
+annotation class A(@get:JvmName("pj") val p: Int)
+class C {
+    @get:JvmName("pj") val p: Int
+        get() = 123
+    @JvmName("fj") fun f() = TODO()
+}
+// FILE: Test.java
+@A(pj = 123)
+class Test {}
 
 // FILE: K.kt
 class KC
