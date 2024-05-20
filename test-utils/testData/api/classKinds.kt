@@ -36,6 +36,17 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
+// FILE: Test.kt
+import java.io.*
+public class KotlinAccessors {
+    @get:Throws(IllegalArgumentException::class)
+    val getterThrows: Int = 3
+    @set:Throws(IllegalStateException::class)
+    var setterThrows: Int = 3
+    @get:Throws(IOException::class)
+    @set:Throws(IllegalStateException::class, IllegalArgumentException::class)
+    var bothThrows: Int = 3
+}
 
 // FILE: K.kt
 class KC
