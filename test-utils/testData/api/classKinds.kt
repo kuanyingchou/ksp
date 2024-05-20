@@ -36,7 +36,17 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// MODULE: lib
+// FILE: TestLib.kt
+annotation class MyAnnotation
+class TestLib {
+    fun @receiver:MyAnnotation String.ext8(): String = TODO()
+}
+// MODULE: main(lib)
+// FILE: Test.kt
+class Test {
+    fun @receiver:MyAnnotation String.ext8(): String = TODO()
+}
 // FILE: K.kt
 class KC
 interface KI
