@@ -36,7 +36,22 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// MODULE: lib
+// FILE: Test.kt
+class A {
+    companion object {
+        val companionObjectProperty: String = "hello"
+        @JvmStatic
+        val companionObjectPropertyJvmStatic: String = "hello"
+        @JvmField val companionObjectPropertyJvmField: String = "hello"
+        lateinit var companionObjectPropertyLateinit: String
+        const val companionObjectPropertyConst: String = "hello"
+        fun companionObjectFunction(companionFunctionParam: String) {}
+        @JvmStatic
+        fun companionObjectFunctionJvmStatic(companionFunctionParam: String) {}
+    }
+}
+// MODULE: main(lib)
 // FILE: K.kt
 class KC
 interface KI
