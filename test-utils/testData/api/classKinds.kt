@@ -36,6 +36,16 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
+// FILE: Test.kt
+interface Usage : Foo<Long, Integer> {
+    fun foo(param: Foo<Double, Integer>): Foo<String, Integer>
+}
+interface Foo<V1, V2: Integer> : Bar<Baz<V1, Number>, V2> {}
+interface Bar<U1, U2: Integer> : Baz<U1, U2> {}
+interface Baz<T1, T2: Number> {
+    fun method1(): T1
+    fun method2(): T2
+}
 
 // FILE: K.kt
 class KC
