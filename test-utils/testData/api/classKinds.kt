@@ -36,7 +36,9 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// FILE: Test.java
+class Bar extends Foo<MissingType> {}
+class Foo<T> {}
 // FILE: K.kt
 class KC
 interface KI
