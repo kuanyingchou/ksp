@@ -36,7 +36,14 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// FILE: Test.java
+import java.lang.annotation.*;
+@Target(ElementType.TYPE_USE)
+@interface MyAnnotation {
+    Class<?> typeParam();
+}
+class MyClass {}
+class Test extends @MyAnnotation(typeParam = MyClass.class) Object {}
 // FILE: K.kt
 class KC
 interface KI
