@@ -36,7 +36,14 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// MODULE: lib
+// FILE: testlib/Test.java
+package testlib;
+class TestJavaLib {}
+// MODULE: main(lib)
+// FILE: test/Test.java
+package test;
+class TestJava {}
 // FILE: K.kt
 class KC
 interface KI
