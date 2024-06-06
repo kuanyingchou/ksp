@@ -36,8 +36,12 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// MODULE: lib
+// FILE: Lib.kt
+data class TestLib(var x: Int, val y: String)
+// MODULE: main(lib)
 // FILE: K.kt
+data class Test(var x: Int, val y: String)
 class KC
 interface KI
 annotation class KA
