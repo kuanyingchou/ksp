@@ -26,6 +26,16 @@ open class ClassKindsProcessor : AbstractTestProcessor() {
     val results = mutableListOf<String>()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        listOf("foo.bar.java.Baz", "foo.bar.kotlin.Baz").forEach { clsName ->
+            resolver.getClassDeclarationByName(clsName)!!.let { cls ->
+                try {
+                    println(cls.superTypes.toList().map { it.resolve().replace(emptyList()) })
+                } catch (e: Exception) {
+                    println(e)
+                }
+            }
+        }
+
         fun KSClassDeclaration.pretty(): String = "${qualifiedName!!.asString()}: $classKind"
         val files = resolver.getNewFiles()
         files.forEach {

@@ -36,8 +36,18 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
+// FILE: TestKt.kt
+package foo.bar.kotlin
+class A
+interface B
+class Baz: A, B, C
 
-// FILE: K.kt
+// FILE: foo/bar/java/Test.java
+package foo.bar.java;
+class A {}
+interface B {}
+class Baz extends A implements B, C {}
+ FILE: K.kt
 class KC
 interface KI
 annotation class KA
