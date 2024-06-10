@@ -36,7 +36,22 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
-
+// MODULE: lib
+// FILE: OtherAnnotation.java
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+@Retention(RetentionPolicy.RUNTIME)
+public @interface OtherAnnotation {
+    String value();
+}
+// FILE: JavaAnnotationWithDefaults.java
+public @interface JavaAnnotationWithDefaults {
+    OtherAnnotation otherAnnotationVal() default @OtherAnnotation("def");
+}
+// MODULE: main(lib)
+// FILE: Test.kt
+@JavaAnnotationWithDefaults
+class Test
 // FILE: K.kt
 class KC
 interface KI
