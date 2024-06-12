@@ -36,7 +36,13 @@
 // kotlin.DeprecationLevel: ENUM_CLASS
 // kotlin.Double.Companion: OBJECT
 // END
+// FILE: A.kt
+interface A<out T>
 
+// FILE: B.java
+class B {
+    A<? extends Number> a;
+}
 // FILE: K.kt
 class KC
 interface KI
