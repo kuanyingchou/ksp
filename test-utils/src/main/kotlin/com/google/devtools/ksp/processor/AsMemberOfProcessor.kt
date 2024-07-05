@@ -2,6 +2,7 @@ package com.google.devtools.ksp.processor
 
 import com.google.devtools.ksp.getClassDeclarationByName
 import com.google.devtools.ksp.getDeclaredFunctions
+import com.google.devtools.ksp.getDeclaredProperties
 import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
@@ -16,7 +17,16 @@ class AsMemberOfProcessor : AbstractTestProcessor() {
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        val cls = resolver.getClassDeclarationByName("MyValueClass")!!
         val base = resolver.getClassDeclarationByName("Base")!!
+        cls.getDeclaredProperties().single().let { f ->
+
+            val type = base.getDeclaredFunctions().single { it.simpleName.asString() == "f" }.let {
+                it.parameters.single().type.resolve()
+            }
+            println("$f, ${f.asMemberOf(type)}")
+        }
+
         val child1 = resolver.getClassDeclarationByName("Child1")!!
         addToResults(resolver, base, child1.asStarProjectedType())
         val child2 = resolver.getClassDeclarationByName("Child2")!!

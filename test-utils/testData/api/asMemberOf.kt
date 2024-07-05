@@ -113,6 +113,10 @@
 // Baz!!<kotlin.Long!!, kotlin.Number!!>
 // END
 // FILE: Input.kt
+
+@JvmInline
+value class MyValueClass(val s: String)
+
 open class Base<BaseTypeArg1, BaseTypeArg2> {
     val intType: Int = 0
     val baseTypeArg1: BaseTypeArg1 = TODO()
@@ -134,6 +138,8 @@ open class Base<BaseTypeArg1, BaseTypeArg2> {
     fun <in T: BaseTypeArg1> functionArgTypeWithBounds(t:T?): BaseTypeArg2 = TODO()
     fun BaseTypeArg1.extensionFunction():BaseTypeArg1? = TODO()
     val BaseTypeArg2.extensionProperty:BaseTypeArg2? = TODO()
+
+    fun f(p: MyValueClass?) {}
 }
 
 open class Child1 : Base<Int, String?>() {

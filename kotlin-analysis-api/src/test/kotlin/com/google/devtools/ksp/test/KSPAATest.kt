@@ -126,7 +126,7 @@ class KSPAATest : AbstractKSPAATest() {
         runTest("../test-utils/testData/api/annotationWithJavaTypeValue.kt")
     }
 
-    @Disabled
+    //@Disabled
     @TestMetadata("asMemberOf.kt")
     @Test
     fun testAsMemberOf() {
