@@ -121,13 +121,17 @@
 // x:KSPropertyDeclaration
 // x:KSValueParameter
 // END
-//FILE: annotations.kt
+// MODULE: lib
+//FILE: annotaitons_in_lib.kt
 annotation class Anno
 annotation class Bnno
 annotation class Cnno
+
+//FILE: aliases_in_lib.kt
 typealias A1 = Anno
 typealias A2 = A1
 
+// MODULE: main(lib)
 //FILE: Foo.kt
 @file:Bnno
 
