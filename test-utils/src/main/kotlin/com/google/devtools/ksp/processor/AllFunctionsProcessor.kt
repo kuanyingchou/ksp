@@ -17,6 +17,8 @@
 
 package com.google.devtools.ksp.processor
 
+import com.google.devtools.ksp.KspExperimental
+import com.google.devtools.ksp.getJavaClassByName
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 
@@ -27,7 +29,11 @@ class AllFunctionsProcessor : AbstractTestProcessor() {
         return visitor.toResult()
     }
 
+    @OptIn(KspExperimental::class)
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        resolver.getJavaClassByName("JavaImplOfKotlinInterface")!!.let { cls ->
+            println(cls.declarations.toString())
+        }
         resolver.getNewFiles().forEach { it.accept(visitor, Unit) }
         return emptyList()
     }

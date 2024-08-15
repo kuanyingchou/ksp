@@ -32,12 +32,12 @@
 // END
 
 // FILE: KotlinInterfaceWithProperty.kt
-interface KotlinInterfaceWithProperty {
+interface KotlinInterfaceWithProperty<T> {
     var x:Int
 }
 
 // FILE: JavaImplOfKotlinInterface.java
-class JavaImplOfKotlinInterface implements KotlinInterfaceWithProperty {
+class JavaImplOfKotlinInterface implements KotlinInterfaceWithProperty<String> {
     public int getX() {
         return 1;
     }
