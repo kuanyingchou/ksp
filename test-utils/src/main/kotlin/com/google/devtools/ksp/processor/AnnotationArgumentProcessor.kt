@@ -28,8 +28,12 @@ class AnnotationArgumentProcessor : AbstractTestProcessor() {
     override fun process(resolver: Resolver): List<KSAnnotated> {
         listOf("MyClass", "MyClassInLib").forEach { clsName ->
             resolver.getClassDeclarationByName(clsName)?.let { cls ->
-                cls.annotations.single().arguments.forEach {
-                    results.add("$clsName: ${it.name!!.asString()} = ${it.value}")
+                cls.annotations.forEach { annotation ->
+                    results.add("$clsName: ${annotation.annotationType.resolve()
+                        .declaration.qualifiedName?.asString() ?: "null"}")
+                    annotation.arguments.forEach {
+                        results.add("$clsName: ${it.name!!.asString()} = ${it.value}")
+                    }
                 }
             }
         }
