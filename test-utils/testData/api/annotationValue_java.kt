@@ -130,3 +130,15 @@ class Sub implements @B(a = @A(i = 42)) Parent {}
 // FILE: TestJavaLib.java
 @JavaAnnotationWithDefaults
 class TestJavaLib {}
+
+// FILE: foo/bar/Test.java
+package foo.bar;
+import java.util.List;
+class Test {
+    List<String> f() { throw new RuntimeException(); }
+}
+// FILE: foo/bar/Test.kt
+package foo.bar
+class KTest {
+    fun f(): List<String> = TODO()
+}

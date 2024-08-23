@@ -26,6 +26,29 @@ class AnnotationArgumentProcessor : AbstractTestProcessor() {
     val visitor = ArgumentVisitor()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        listOf("foo.bar.Test", "foo.bar.KTest").forEach { cls ->
+            resolver.getClassDeclarationByName(cls)!!.let { test ->
+                test.getAllFunctions().single { it.simpleName.asString() == "f" }.let { f ->
+                    val resolvedReturnType = f.returnType!!.resolve()
+                    val iterator = (resolvedReturnType.declaration as KSClassDeclaration).getAllFunctions().single {
+                        it.simpleName.asString() == "iterator"
+                    }
+                    // Prints
+                    // ```
+                    // MutableIterator<E>
+                    // Iterator<String>
+                    // ```
+                    // with KSP2 but is
+                    // ```
+                    // MutableIterator<(String..String?)>
+                    // Iterator<String>
+                    // ```
+                    // with KSP1.
+                    println(iterator.asMemberOf(resolvedReturnType).returnType)
+                }
+            }
+        }
+
         listOf("MyClass", "MyClassInLib").forEach { clsName ->
             resolver.getClassDeclarationByName(clsName)?.let { cls ->
                 cls.annotations.single().arguments.forEach {
