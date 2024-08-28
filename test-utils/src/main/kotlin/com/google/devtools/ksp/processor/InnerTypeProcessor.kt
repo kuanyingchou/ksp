@@ -17,6 +17,8 @@
 
 package com.google.devtools.ksp.processor
 
+import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.innerArguments
 import com.google.devtools.ksp.outerType
 import com.google.devtools.ksp.processing.Resolver
@@ -28,6 +30,12 @@ open class InnerTypeProcessor : AbstractTestProcessor() {
     val types = mutableSetOf<KSType>()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+
+        resolver.getClassDeclarationByName("Test")!!.let { cls ->
+            println(cls.getDeclaredFunctions().single { it.simpleName.asString() == "f" }
+                .returnType!!.resolve().outerType)
+        }
+
         val files = resolver.getNewFiles()
         val ignoredNames = mutableSetOf<String>()
 
