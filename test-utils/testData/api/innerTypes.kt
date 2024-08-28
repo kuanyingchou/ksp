@@ -29,7 +29,7 @@
 // C5<*, *>: [C1.C4.C5<STAR Any>, C1.C4<STAR Any>]
 // C5<Float, Double>: [C1.C4.C5<INVARIANT Float>, C1.C4<INVARIANT Double>]
 // END
-
+// FILE: Test.kt
 @file:Suppress("Byte", "Int", "Short", "Double", "Float", "Suppress", "Any")
 
 class C1<T1> {
@@ -49,3 +49,8 @@ val c2 = c1.C2<Short>()
 val c3 = c2.C3<Byte>()
 val c4 = C1.C4<Double>()
 val c5 = c4.C5<Float>()
+
+// FILE: Test.java
+class Test {
+    C1 f() { throw new RuntimeException(); }
+}
