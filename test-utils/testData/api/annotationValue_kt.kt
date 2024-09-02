@@ -34,6 +34,10 @@
 // ONE
 // 31
 // Throws
+// TestNestedAnnotationDefaults: def
+// TestNestedAnnotationDefaults: hij
+// TestNestedAnnotationDefaults: def
+// TestNestedAnnotationDefaults: hij
 // END
 // MODULE: module1
 // FILE: placeholder.kt
@@ -48,6 +52,10 @@ public @interface OtherAnnotation {
 public @interface JavaAnnotationWithDefaults {
     OtherAnnotation otherAnnotationVal() default @OtherAnnotation("def");
 }
+
+// FILE: KotlinAnnotationWithDefaults.kt
+annotation class KotlinAnnotationWithDefaults(val otherAnnotation: OtherAnnotation = OtherAnnotation("hij"))
+
 
 // MODULE: main(module1)
 // FILE: a.kt
@@ -109,3 +117,19 @@ fun Fun() {
 // FILE: JavaEnum.java
 
 enum JavaEnum { ONE, TWO, THREE }
+
+// FILE: JavaAnnotationWithDefaultsInSource.java
+public @interface JavaAnnotationWithDefaultsInSource {
+    OtherAnnotation otherAnnotationVal() default @OtherAnnotation("def");
+}
+
+// FILE: KotlinAnnotationWithDefaults.kt
+annotation class KotlinAnnotationWithDefaultsInSource(val otherAnnotation: OtherAnnotation = OtherAnnotation("hij"))
+
+// FILE: KotlinClient.kt
+@JavaAnnotationWithDefaultsInSource
+@KotlinAnnotationWithDefaultsInSource
+@JavaAnnotationWithDefaults
+@KotlinAnnotationWithDefaults
+class TestNestedAnnotationDefaults
+

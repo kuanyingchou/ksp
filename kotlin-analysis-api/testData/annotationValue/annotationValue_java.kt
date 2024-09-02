@@ -39,7 +39,10 @@
 // 31
 // [warning1, warning 2]
 // Sub: [i:42]
-// TestJavaLib: OtherAnnotation
+// TestNestedAnnotationDefaults: def
+// TestNestedAnnotationDefaults: hij
+// TestNestedAnnotationDefaults: def
+// TestNestedAnnotationDefaults: hij
 // END
 // MODULE: module1
 // FILE: placeholder.kt
@@ -72,6 +75,9 @@ public @interface OtherAnnotation {
 public @interface JavaAnnotationWithDefaults {
     OtherAnnotation otherAnnotationVal() default @OtherAnnotation("def");
 }
+
+// FILE: KotlinAnnotationWithDefaults.kt
+annotation class KotlinAnnotationWithDefaults(val otherAnnotation: OtherAnnotation = OtherAnnotation("hij"))
 
 // MODULE: main(module1)
 // FILE: Test.java
@@ -136,6 +142,17 @@ import java.lang.annotation.Target;
 interface Parent {}
 class Sub implements @B(a = @A(i = 42)) Parent {}
 
-// FILE: TestJavaLib.java
+// FILE: JavaAnnotationWithDefaultsInSource.java
+public @interface JavaAnnotationWithDefaultsInSource {
+    OtherAnnotation otherAnnotationVal() default @OtherAnnotation("def");
+}
+
+// FILE: KotlinAnnotationWithDefaults.kt
+annotation class KotlinAnnotationWithDefaultsInSource(val otherAnnotation: OtherAnnotation = OtherAnnotation("hij"))
+
+// FILE: TestNestedAnnotationDefaults.java
+@JavaAnnotationWithDefaultsInSource
+@KotlinAnnotationWithDefaultsInSource
 @JavaAnnotationWithDefaults
-class TestJavaLib {}
+@KotlinAnnotationWithDefaults
+class TestNestedAnnotationDefaults {}
