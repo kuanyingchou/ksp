@@ -31,7 +31,7 @@ open class TopLevelMemberProcessor : AbstractTestProcessor() {
     lateinit var results: List<String>
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        results = listOf("lib", "main").flatMap { pkg ->
+        results = listOf("lib", "main", "main.nested").flatMap { pkg ->
             resolver.getDeclarationsFromPackage(pkg)
                 .flatMap { declaration ->
                     val declarations = mutableListOf<KSDeclaration>()

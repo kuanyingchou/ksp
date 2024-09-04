@@ -58,6 +58,9 @@
 // main : variableInMainCompanion -> main.RealMainClass$Companion
 // main : variableInMainJvmName -> main.MainCustomClassName
 // main : variableInMainRealClass -> main.RealMainClass
+// main.nested : <init> -> null
+// main.nested : javaFieldInMain -> main.nested.MainAnotherJavaClass
+// main.nested : javaMethodInMain -> main.nested.MainAnotherJavaClass
 // END
 
 // MODULE: lib
@@ -132,6 +135,14 @@ var variableInMainJvmName: String = ""
 package main;
 public class MainJavaClass {
     public MainJavaClass() {}
+    private String javaFieldInMain;
+    private void javaMethodInMain() {
+    }
+}
+// FILE: main/nested/MainAnotherJavaClass.java
+package main.nested;
+public class MainAnotherJavaClass {
+    public MainNestedJavaClass() {}
     private String javaFieldInMain;
     private void javaMethodInMain() {
     }
