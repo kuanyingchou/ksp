@@ -61,6 +61,9 @@
 import java.util.List;
 import java.util.Set;
 
+@Deprecated
+class SomethingAnnotated {}
+
 public class C<T> {
     public C() {}
     // to reproduce the case where type reference is owned by a constructor

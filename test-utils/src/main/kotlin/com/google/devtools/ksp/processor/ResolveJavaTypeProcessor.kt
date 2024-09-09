@@ -37,7 +37,9 @@ class ResolveJavaTypeProcessor : AbstractTestProcessor() {
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        resolver.getSymbolsWithAnnotation("java.lang.Deprecated").toList()
         val symbol = resolver.getClassDeclarationByName(resolver.getKSNameFromString("C"))
+        symbol!!.asType(emptyList())
         val symbolTypeParameter = resolver.getClassDeclarationByName(resolver.getKSNameFromString("Base"))
         val another = resolver.getClassDeclarationByName(resolver.getKSNameFromString("Another"))
         val javaEnum = resolver.getClassDeclarationByName(resolver.getKSNameFromString("JavaEnum"))
