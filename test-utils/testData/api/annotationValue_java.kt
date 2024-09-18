@@ -18,12 +18,15 @@
 // WITH_RUNTIME
 // TEST PROCESSOR: AnnotationArgumentProcessor
 // EXPECTED:
-// MyClass: stringParam = 2
-// MyClass: stringParam2 = 1
-// MyClass: stringArrayParam = [3, 5, 7]
-// MyClassInLib: stringParam = 2
-// MyClassInLib: stringParam2 = 1
-// MyClassInLib: stringArrayParam = [3, 5, 7]
+// MyClass: MyAnnotation: stringParam = 2
+// MyClass: MyAnnotation: stringParam2 = 1
+// MyClass: MyAnnotation: stringArrayParam = [3, 5, 7]
+// MyClass: MyAnnotationInLib: stringParam = 2
+// MyClass: MyAnnotationInLib: stringParam2 = 1
+// MyClass: MyAnnotationInLib: stringArrayParam = [3, 5, 7]
+// MyClassInLib: MyAnnotationInLib: stringParam = 2
+// MyClassInLib: MyAnnotationInLib: stringParam2 = 1
+// MyClassInLib: MyAnnotationInLib: stringArrayParam = [3, 5, 7]
 // Str
 // 42
 // Foo
@@ -45,13 +48,13 @@
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
-@interface MyAnnotation {
-    String stringParam() default "1";
+@interface MyAnnotationInLib {
+    String stringParam();
     String stringParam2() default "1";
     String[] stringArrayParam() default {"3", "5", "7"};
 }
 interface MyInterface {}
-@MyAnnotation(stringParam = "2") class MyClassInLib implements MyInterface {}
+@MyAnnotationInLib(stringParam = "2") class MyClassInLib implements MyInterface {}
 
 // FILE: OtherAnnotation.java
 import java.lang.annotation.Retention;
@@ -67,7 +70,13 @@ public @interface JavaAnnotationWithDefaults {
 
 // MODULE: main(module1)
 // FILE: Test.java
-@MyAnnotation(stringParam = "2") class MyClass implements MyInterface {}
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
+@interface MyAnnotation {
+    String stringParam();
+    String stringParam2() default "1";
+    String[] stringArrayParam() default {"3", "5", "7"};
+}
+@MyAnnotation(stringParam = "2") @MyAnnotationInLib(stringParam = "2") class MyClass implements MyInterface {}
 // FILE: a.kt
 
 enum class RGB {
